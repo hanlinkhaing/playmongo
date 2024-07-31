@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: playmongo
+  data:
+    mongodb:
+      username: root
+      password: root
+      host: localhost
+      port: 27017
+      database: playmongo
+      auto-index-creation: true
