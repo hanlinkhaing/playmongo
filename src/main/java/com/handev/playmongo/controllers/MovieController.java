@@ -2,6 +2,8 @@ package com.handev.playmongo.controllers;
 
 import com.handev.playmongo.constants.MovieSortField;
 import com.handev.playmongo.constants.SortOrder;
+import com.handev.playmongo.dto.AggPageDto;
+import com.handev.playmongo.dto.GenreWithTotalDto;
 import com.handev.playmongo.dto.MovieSearchDto;
 import com.handev.playmongo.dto.Response;
 import com.handev.playmongo.models.Movie;
@@ -46,14 +48,25 @@ public class MovieController {
                 .build();
     }
 
-    @RequestMapping("/full-text-search-with-template")
-    public ResponseEntity<Response<List<MovieSearchDto>>> findWithTemplate(
-            @RequestParam String text
+    @RequestMapping("/full-text-search-with-aggregation")
+    public ResponseEntity<Response<AggPageDto<MovieSearchDto>>> findWithTemplate(
+            @RequestParam String text,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
-        return Response.<List<MovieSearchDto>>builder()
+        return Response.<AggPageDto<MovieSearchDto>>builder()
                 .status(HttpStatus.OK)
                 .message("Movie retrieved successfully")
-                .data(movieService.findWithTemplate(text))
+                .data(movieService.getByFullTextSearch(text, page, size))
+                .build();
+    }
+
+    @RequestMapping("/genre-with-total")
+    public ResponseEntity<Response<List<GenreWithTotalDto>>> getGenreWithTotal() {
+        return Response.<List<GenreWithTotalDto>>builder()
+                .status(HttpStatus.OK)
+                .message("Genre with total retrieved successfully")
+                .data(movieService.getGenreWithTotal())
                 .build();
     }
 }

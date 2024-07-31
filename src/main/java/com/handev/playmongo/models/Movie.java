@@ -48,6 +48,4 @@ public class Movie {
 
     @Field("num_mflix_comments")
     private int numMFlixComments;
-
-    private double score;
 }
